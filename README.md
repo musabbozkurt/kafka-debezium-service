@@ -41,7 +41,7 @@
 * GET ```http://localhost:8001/consumer/orders```  --> retrieve List of unprocessed messages from orders topic
 * POST ```http://localhost:8001/producer/orders``` --> publish messages
 
-    ``` json
+    ``` 
     curl -X 'POST' \
       'http://localhost:8001/producer/orders' \
       -H 'accept: */*' \
