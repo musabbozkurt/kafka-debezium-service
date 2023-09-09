@@ -5,6 +5,8 @@
 * pgAdmin/DBeaver can be installed (Optional)
 * Postman can be installed (Optional)
 
+-----
+
 ### `docker-compose` contains the followings
 
 * Zookeeper: ```http://localhost:2181```
@@ -14,6 +16,8 @@
     * `POSTGRES_USER: postgres`
     * `POSTGRES_PASSWORD: postgres`
     * `Port: 5433`
+
+-----
 
 ### How to start the application
 
@@ -29,10 +33,14 @@
     * Run the following
       test --> [KafkaDebeziumServiceApplicationTests.java](src%2Ftest%2Fjava%2Fcom%2Fmb%2Fkafkadebeziumservice%2FKafkaDebeziumServiceApplicationTests.java)
 
+-----
+
 ### Swagger and Actuator
 
 * Swagger Url: http://localhost:8001/swagger-ui/index.html
 * Actuator Url: http://localhost:8001/actuator
+
+-----
 
 ### The following REST APIs can be tested via Swagger
 
@@ -48,6 +56,8 @@
       -H 'Content-Type: application/json' \
       -d '"hello world"'
     ```
+
+-----
 
 ### How to test Debezium
 
@@ -76,6 +86,8 @@
 * Check [Orders Inventory Customers Topic](http://localhost:9000/topic/orders.inventory.customers) to make sure message
   is published
 
+-----
+
 ### Reference Documentation
 
 For further reference, please consider the following sections:
@@ -90,6 +102,8 @@ For further reference, please consider the following sections:
 * [Debezium connector for PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html)
 * [Setting Up a Local Kafka Using Testcontainers in Spring Boot](https://medium.com/@truongbui95/setting-up-a-local-kafka-using-testcontainers-in-spring-boot-bb41466751e6)
 * [Posting Request Body with Curl [Curl/Bash Code]](https://reqbin.com/req/curl/c-d2nzjn3z/curl-post-body)
+
+-----
 
 ### Guides
 
