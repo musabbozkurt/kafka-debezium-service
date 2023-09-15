@@ -19,6 +19,9 @@
         <testcontainers-junit-jupiter.version>1.18.3</testcontainers-junit-jupiter.version>
         <testcontainers-kafka.version>1.18.3</testcontainers-kafka.version>
         <springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
+             
+        <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
+        <registry>${env.CI_REGISTRY}/${env.CI_REGION}/${project.artifactId}</registry>
     </properties>
     <dependencies>
         <dependency>
@@ -122,6 +125,31 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+         
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>${dockerfile-maven-plugin.version}</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>${registry}</repository>
+                    <tag>${env.CI_REGISTRY_TAG}</tag>
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                        <VERSION>${env.BRANCH_NAME}</VERSION>
+                        <MODULENAME>${project.artifactId}</MODULENAME>
+                    </buildArgs>
                 </configuration>
             </plugin>
         </plugins>
