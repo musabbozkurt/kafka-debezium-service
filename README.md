@@ -1,20 +1,19 @@
 ### Prerequisites
 
 * Docker should be installed
-* Java 17+ should be installed
-* pgAdmin/DBeaver can be installed (Optional)
-* Postman can be installed (Optional)
+* Java 21 should be installed --> `export JAVA_HOME=$(/usr/libexec/java_home -v 21)`
 
 -----
 
 ### `docker-compose` contains the followings
 
-* Zookeeper: ```http://localhost:2181```
-* Kafka Nodes: ```http://localhost:9092```,```http://localhost:9093```
-* Kafdrop, a UI tool to visualize topics and messages on: `http://localhost:9000/`
-* PostgreSQL DB connection details
-    * `POSTGRES_USER: postgres`
-    * `POSTGRES_PASSWORD: postgres`
+* `Zookeeper`: http://localhost:2181
+* `Kafka Nodes`: http://localhost:9092,http://localhost:9093
+* `Kafdrop`, a UI tool to visualize topics and messages on: http://localhost:9000
+* `PostgreSQL` DB connection details
+    * `User: postgres`
+    * `Password: postgres`
+    * `Database: postgres`
     * `Port: 5433`
 
 -----
@@ -24,9 +23,7 @@
 * First way
     * Run the following script --> [./scripts/run.sh](scripts%2Frun.sh)
 * Second way
-    * Run the following command to start the services --> ```docker-compose up -d```
-    * Run the following command to use Java 17 (Or any java version installed on your system which should be
-      17+) --> `export JAVA_HOME=$(/usr/libexec/java_home -v 17)`
+    * Run `docker-compose up -d` command to start the services `(OPTIONAL)`
     * Run `mvn clean install` or `mvn clean package`
     * Run `mvn spring-boot:run` or `./mvnw spring-boot:run`
 * Third way
@@ -35,36 +32,16 @@
 
 -----
 
-### Swagger and Actuator
+### Check and Test REST APIs via Swagger and Actuator
 
 * Swagger Url: http://localhost:8001/swagger-ui/index.html
 * Actuator Url: http://localhost:8001/actuator
 
 -----
 
-### The following REST APIs can be tested via Swagger
-
-* GET ```http://localhost:8001/producer```         --> check health of producer
-* GET ```http://localhost:8001/consumer```         --> check health of consumer
-* GET ```http://localhost:8001/consumer/orders```  --> retrieve List of unprocessed messages from orders topic
-* POST ```http://localhost:8001/producer/orders``` --> publish messages
-
-    ``` 
-    curl -X 'POST' \
-      'http://localhost:8001/producer/orders' \
-      -H 'accept: */*' \
-      -H 'Content-Type: application/json' \
-      -d '"hello world"'
-    ```
-
------
-
 ### How to test Debezium
 
-* Connect to PostgreSQL with the following connection details
-    * `POSTGRES_USER: postgres`
-    * `POSTGRES_PASSWORD: postgres`
-    * `Port: 5433`
+* Connect to `PostgreSQL` with the provided connection details above
 * Run the following query to make sure there are records
 
   ```sql
@@ -92,11 +69,6 @@
 
 For further reference, please consider the following sections:
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.1.3/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.1.3/maven-plugin/reference/html/#build-image)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/3.1.3/reference/htmlsingle/index.html#web)
-* [Spring for Apache Kafka](https://docs.spring.io/spring-boot/docs/3.1.3/reference/htmlsingle/index.html#messaging.kafka)
 * [Kafka Local](https://developer.confluent.io/quickstart/kafka-local/)
 * [Run Debezium Kafka Connect using Docker | Kafka | Zookeeper | Kafdrop | Docker Compose](https://www.youtube.com/watch?v=yZy4QZYMUrY)
 * [Debezium connector for PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html)
@@ -104,11 +76,3 @@ For further reference, please consider the following sections:
 * [Posting Request Body with Curl [Curl/Bash Code]](https://reqbin.com/req/curl/c-d2nzjn3z/curl-post-body)
 
 -----
-
-### Guides
-
-The following guides illustrate how to use some features concretely:
-
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)]

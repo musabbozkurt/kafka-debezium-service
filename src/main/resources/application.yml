@@ -20,6 +20,13 @@ spring:
     serialization:
       indent_output: true
 
+  docker:
+    compose:
+      enabled: true
+      lifecycle-management: start_only
+      readiness:
+        wait: never
+
 springdoc:
   api-docs:
     path: /api-docs

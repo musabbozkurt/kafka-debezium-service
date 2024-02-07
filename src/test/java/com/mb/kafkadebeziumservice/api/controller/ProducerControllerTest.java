@@ -33,7 +33,8 @@ class ProducerControllerTest {
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(get("/producer")
                         .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
+                .andReturn()
+                .getResponse();
 
         // Verify the results
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
@@ -47,7 +48,8 @@ class ProducerControllerTest {
         final MockHttpServletResponse response = mockMvc.perform(post("/producer/{topic}", "topic")
                         .content("content").contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
+                .andReturn()
+                .getResponse();
 
         // Verify the results
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());

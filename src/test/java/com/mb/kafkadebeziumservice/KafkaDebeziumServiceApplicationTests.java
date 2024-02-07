@@ -12,5 +12,4 @@ class KafkaDebeziumServiceApplicationTests {
                 .initializers(new LocalKafkaInitializer())
                 .run(args);
     }
-
 }

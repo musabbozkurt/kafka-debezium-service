@@ -35,7 +35,8 @@ class ConsumerControllerTest {
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(get("/consumer")
                         .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
+                .andReturn()
+                .getResponse();
 
         // Verify the results
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
@@ -51,7 +52,8 @@ class ConsumerControllerTest {
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(get("/consumer/orders")
                         .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
+                .andReturn()
+                .getResponse();
 
         // Verify the results
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
@@ -66,7 +68,8 @@ class ConsumerControllerTest {
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(get("/consumer/orders")
                         .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
+                .andReturn()
+                .getResponse();
 
         // Verify the results
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
