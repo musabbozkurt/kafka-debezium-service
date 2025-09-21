@@ -39,7 +39,7 @@ function createPostgresConnector {
                                          "database.password": "postgres",
                                          "database.dbname": "postgres",
                                          "database.server.name": "inventory-db-server",
-                                         "table.include.list": "inventory.customers",
+                                         "table.include.list": "inventory.customers, inventory.products",
                                          "topic.prefix": "inventory-db-server",
                                          "plugin.name": "pgoutput",
                                          "slot.name": "debezium_slot"

@@ -17,6 +17,7 @@ spring:
       topic1: orders
       topic2: inventory-db-server.inventory.customers
       topic3: customers
+      topic4: inventory-db-server.inventory.products
   jackson:
     serialization:
       indent_output: true

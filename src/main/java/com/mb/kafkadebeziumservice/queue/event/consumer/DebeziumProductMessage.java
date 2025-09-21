@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class DebeziumMessage {
+public class DebeziumProductMessage {
 
     private Payload payload;
 
@@ -17,8 +17,8 @@ public class DebeziumMessage {
     @ToString
     public static class Payload {
 
-        private CustomerData before;
-        private CustomerData after;
+        private ProductData before;
+        private ProductData after;
         private Source source;
         private String op;
         @JsonProperty("ts_ms")
@@ -27,12 +27,10 @@ public class DebeziumMessage {
         @Getter
         @Setter
         @ToString
-        public static class CustomerData {
+        public static class ProductData {
             private Integer id;
-            @JsonProperty("first_name")
-            private String firstName;
-            @JsonProperty("last_name")
-            private String lastName;
+            private String description;
+            private String weight;
             private String email;
         }
 

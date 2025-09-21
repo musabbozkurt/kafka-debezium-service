@@ -3,7 +3,8 @@ package com.mb.kafkadebeziumservice.queue.consumer.impl;
 import com.mb.kafkadebeziumservice.config.KafkaConsumerConfig;
 import com.mb.kafkadebeziumservice.queue.consumer.ConsumerService;
 import com.mb.kafkadebeziumservice.queue.event.consumer.Customer;
-import com.mb.kafkadebeziumservice.queue.event.consumer.DebeziumMessage;
+import com.mb.kafkadebeziumservice.queue.event.consumer.DebeziumCustomerMessage;
+import com.mb.kafkadebeziumservice.queue.event.consumer.DebeziumProductMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -38,19 +39,39 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     @KafkaListener(topics = "${spring.kafka.topics.topic2}", groupId = "${spring.kafka.consumer.group-id}")
-    public void consumeInventoryCustomers(@Payload(required = false) DebeziumMessage message,
+    public void consumeInventoryCustomers(@Payload(required = false) DebeziumCustomerMessage message,
                                           @Header(KafkaHeaders.RECEIVED_PARTITION) String receivedPartitionId,
                                           @Header(KafkaHeaders.OFFSET) String offset) {
         log.info("Received a request to consume topic2 message. receivedPartitionId: {} offset: {} message: {}", receivedPartitionId, offset, message);
 
         if (message == null) {
-            log.info("Received tombstone record (null value) - this is normal for DELETE operations");
+            log.info("Received tombstone customer record (null value) - this is normal for DELETE operations");
             return;
         }
 
-        DebeziumMessage.Payload payload = message.getPayload();
+        DebeziumCustomerMessage.Payload payload = message.getPayload();
         if (payload == null) {
-            log.info("Received message with null payload");
+            log.info("Received customer message with null payload");
+            return;
+        }
+
+        processPayload(payload);
+    }
+
+    @KafkaListener(topics = "${spring.kafka.topics.topic4}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consumeInventoryProducts(@Payload(required = false) DebeziumProductMessage message,
+                                         @Header(KafkaHeaders.RECEIVED_PARTITION) String receivedPartitionId,
+                                         @Header(KafkaHeaders.OFFSET) String offset) {
+        log.info("Received a request to consume topic4 message. receivedPartitionId: {} offset: {} message: {}", receivedPartitionId, offset, message);
+
+        if (message == null) {
+            log.info("Received tombstone product record (null value) - this is normal for DELETE operations");
+            return;
+        }
+
+        DebeziumProductMessage.Payload payload = message.getPayload();
+        if (payload == null) {
+            log.info("Received product message with null payload");
             return;
         }
 
@@ -76,23 +97,43 @@ public class ConsumerServiceImpl implements ConsumerService {
         return response;
     }
 
-    private void processPayload(DebeziumMessage.Payload payload) {
+    private void processPayload(DebeziumCustomerMessage.Payload payload) {
         String operation = payload.getOp();
 
         switch (operation) {
             case "c", "u", "r" -> {
-                DebeziumMessage.Payload.CustomerData customer = payload.getAfter();
+                DebeziumCustomerMessage.Payload.CustomerData customer = payload.getAfter();
                 if (customer != null) {
                     log.info("Customer data - ID: {}, Name: {} {}, Email: {}", customer.getId(), customer.getFirstName(), customer.getLastName(), customer.getEmail());
                 }
             }
             case "d" -> {
-                DebeziumMessage.Payload.CustomerData customer = payload.getBefore();
+                DebeziumCustomerMessage.Payload.CustomerData customer = payload.getBefore();
                 if (customer != null) {
                     log.info("Deleted customer - ID: {}", customer.getId());
                 }
             }
-            default -> log.warn("Unknown operation type: {}", operation);
+            default -> log.warn("Unknown customer operation type: {}", operation);
+        }
+    }
+
+    private void processPayload(DebeziumProductMessage.Payload payload) {
+        String operation = payload.getOp();
+
+        switch (operation) {
+            case "c", "u", "r" -> {
+                DebeziumProductMessage.Payload.ProductData product = payload.getAfter();
+                if (product != null) {
+                    log.info("Product data - ID: {}, Name: {} {}", product.getId(), product.getDescription(), product.getWeight());
+                }
+            }
+            case "d" -> {
+                DebeziumProductMessage.Payload.ProductData product = payload.getBefore();
+                if (product != null) {
+                    log.info("Deleted product - ID: {}", product.getId());
+                }
+            }
+            default -> log.warn("Unknown product operation type: {}", operation);
         }
     }
 }
