@@ -23,6 +23,23 @@ services:
     networks:
       - kafka-network
 
+  oracle-db:
+    image: gvenzl/oracle-free:23.8
+    container_name: oracle-db
+    restart: on-failure
+    ports:
+      - "1521:1521"
+    environment:
+      - ORACLE_ARCHIVELOG=true
+      - APP_USER=MB_ORACLE_USER
+      - APP_USER_PASSWORD=oracle_password
+      - ORACLE_PASSWORD=oracle_password
+      - ORACLE_CHARACTERSET=AL32UTF8
+    volumes:
+      - ./scripts/oracle:/container-entrypoint-startdb.d # Initialize the database with custom scripts
+    networks:
+      - kafka-network
+
   kafka1:
     image: confluentinc/cp-kafka:8.0.0
     hostname: kafka1
@@ -137,6 +154,7 @@ services:
       BOOTSTRAP_SERVERS: kafka1:29092,kafka2:29092,kafka3:29092
     links:
       - postgres
+      - oracle-db
     depends_on:
       kafka1:
         condition: service_started
@@ -145,6 +163,8 @@ services:
       kafka3:
         condition: service_started
       postgres:
+        condition: service_started
+      oracle-db:
         condition: service_started
     networks:
       - kafka-network

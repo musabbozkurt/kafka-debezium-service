@@ -12,9 +12,21 @@
     - `Password: postgres`
     - `Database: postgres`
     - `Port: 5433`
+- `Oracle PDB (Pluggable Database)` DB connection details
+    - `Host: localhost`
+    - `Service: freepdb1`
+    - `Port: 1521`
+    - Login:
+        - Authentication: `SYSDBA`
+            - `User: SYS`
+            - `Password: oracle_password`
+        - Authentication: `User & Password`
+            - `User: MB_ORACLE_USER`
+            - `Password: oracle_password`
+
 - `Kafka Nodes`: http://localhost:8080/ui/clusters/local/brokers
 - `kafka-ui`: http://localhost:8080
-- `debezium-connector`: http://localhost:8083
+- `debezium-connectors`: http://localhost:8083/connectors
 
 -----
 
