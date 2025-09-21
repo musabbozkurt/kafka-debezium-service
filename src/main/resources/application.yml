@@ -4,18 +4,19 @@ server:
 spring:
   kafka:
     consumer:
-      bootstrap-servers: ${KAFKA_CONSUMER_BOOTSTRAP_SERVERS:localhost:9092,localhost:9093}
+      bootstrap-servers: ${KAFKA_CONSUMER_BOOTSTRAP_SERVERS:localhost:9092,localhost:9094,localhost:9096}
       group-id: mb
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
     producer:
-      bootstrap-servers: ${KAFKA_PRODUCER_BOOTSTRAP_SERVERS:localhost:9092,localhost:9093}
+      bootstrap-servers: ${KAFKA_PRODUCER_BOOTSTRAP_SERVERS:localhost:9092,localhost:9094,localhost:9096}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     topics:
       topic1: orders
-      topic2: orders.inventory.customers
+      topic2: inventory-db-server.inventory.customers
+      topic3: customers
   jackson:
     serialization:
       indent_output: true
