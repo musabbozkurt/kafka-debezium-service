@@ -47,3 +47,34 @@ function createPostgresConnector {
                                      }')
         echo $postgres_connector
 }
+
+function createOracleConnector {
+    oracle_connector=$(curl --location 'http://localhost:8083/connectors' \
+                       --header 'Content-Type: application/json' \
+                       --data '{
+                           "name": "oracle-connector",
+                           "config": {
+                               "connector.class": "io.debezium.connector.oracle.OracleConnector",
+                               "database.hostname": "oracle-db",
+                               "database.port": "1521",
+                               "database.user": "MB_ORACLE_USER",
+                               "database.password": "oracle_password",
+                               "database.dbname": "FREEPDB1",
+                               "database.pdb.name": "FREEPDB1",
+                               "database.server.name": "oracle-db-server",
+                               "database.connection.adapter": "logminer",
+                               "table.include.list": "MB_ORACLE_USER.CUSTOMERS",
+                               "topic.prefix": "oracle-db-server",
+                               "schema.history.internal.kafka.bootstrap.servers": "kafka1:29092,kafka2:29092,kafka3:29092",
+                               "schema.history.internal.kafka.topic": "oracle-schema-history",
+                               "log.mining.strategy": "online_catalog",
+                               "log.mining.continuous.mine": "true",
+                               "snapshot.mode": "initial",
+                               "include.schema.changes": "true",
+                               "database.tablename.case.insensitive": "false",
+                               "log.mining.session.max.ms": "10000",
+                               "log.mining.sleep.time.default.ms": "1000"
+                           }
+                       }')
+    echo $oracle_connector
+}

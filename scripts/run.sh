@@ -22,6 +22,9 @@ curl -s -X GET -H 'Content-Type: application/json' http://localhost:8083/connect
 postgres_connector=$(createPostgresConnector)
 echo "create Postgres Connector: $postgres_connector"
 
+oracle_connector=$(createOracleConnector)
+echo "create Oracle Connector: $oracle_connector"
+
 ./mvnw clean install
 echo "mvn is run..."
 

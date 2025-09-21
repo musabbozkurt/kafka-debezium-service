@@ -80,7 +80,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         String operation = payload.getOp();
 
         switch (operation) {
-            case "c", "u" -> {
+            case "c", "u", "r" -> {
                 DebeziumMessage.Payload.CustomerData customer = payload.getAfter();
                 if (customer != null) {
                     log.info("Customer data - ID: {}, Name: {} {}, Email: {}", customer.getId(), customer.getFirstName(), customer.getLastName(), customer.getEmail());
