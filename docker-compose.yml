@@ -3,6 +3,7 @@ services:
   postgres:
     image: postgres:16.6
     container_name: postgres
+    restart: on-failure
     ports:
       - "5433:5432"
     environment:
@@ -26,6 +27,7 @@ services:
     image: confluentinc/cp-kafka:8.0.0
     hostname: kafka1
     container_name: kafka1
+    restart: on-failure
     ports:
       - "9092:9092"
       - "9093:9093"
@@ -39,7 +41,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT'
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
-      CLUSTER_ID: ${CLUSTER_ID}
+      CLUSTER_ID: 'Y_K8U2FuTtqok5Zpyp3ltA'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_DEFAULT_REPLICATION_FACTOR: 3
@@ -53,6 +55,7 @@ services:
     image: confluentinc/cp-kafka:8.0.0
     hostname: kafka2
     container_name: kafka2
+    restart: on-failure
     ports:
       - "9094:9094"
       - "9095:9093"
@@ -66,7 +69,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT'
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
-      CLUSTER_ID: ${CLUSTER_ID}
+      CLUSTER_ID: 'Y_K8U2FuTtqok5Zpyp3ltA'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_DEFAULT_REPLICATION_FACTOR: 3
@@ -80,6 +83,7 @@ services:
     image: confluentinc/cp-kafka:8.0.0
     hostname: kafka3
     container_name: kafka3
+    restart: on-failure
     ports:
       - "9096:9096"
       - "9097:9093"
@@ -93,7 +97,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT'
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
-      CLUSTER_ID: ${CLUSTER_ID}
+      CLUSTER_ID: 'Y_K8U2FuTtqok5Zpyp3ltA'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_DEFAULT_REPLICATION_FACTOR: 3
@@ -106,6 +110,7 @@ services:
   kafka-ui:
     image: provectuslabs/kafka-ui:v0.7.2
     container_name: kafka-cluster-ui
+    restart: on-failure
     ports:
       - "8080:8080"
     environment:
@@ -122,6 +127,7 @@ services:
     image: debezium/connect:3.0.0.Final
     hostname: debezium-connector
     container_name: debezium-connector
+    restart: on-failure
     ports:
       - "8083:8083"
     environment:
@@ -132,10 +138,14 @@ services:
     links:
       - postgres
     depends_on:
-      - kafka1
-      - kafka2
-      - kafka3
-      - postgres
+      kafka1:
+        condition: service_started
+      kafka2:
+        condition: service_started
+      kafka3:
+        condition: service_started
+      postgres:
+        condition: service_started
     networks:
       - kafka-network
 
