@@ -26,8 +26,8 @@ function randomPort {
     echo -n $(( ( RANDOM % 60000 ) + 1024 ))
 }
 
-function createDebeziumConnectors {
-    inventory_connector=$(curl -X POST 'http://localhost:8083/connectors' \
+function createPostgresConnector {
+    postgres_connector=$(curl -X POST 'http://localhost:8083/connectors' \
                                 -H 'Content-Type: application/json' \
                                 -d '{
                                        "name": "inventory-connector",
@@ -38,30 +38,12 @@ function createDebeziumConnectors {
                                          "database.user": "postgres",
                                          "database.password": "postgres",
                                          "database.dbname": "postgres",
-                                         "database.server.name": "dbserver1",
+                                         "database.server.name": "inventory-db-server",
                                          "table.include.list": "inventory.customers",
-                                         "topic.prefix": "orders"
+                                         "topic.prefix": "inventory-db-server",
+                                         "plugin.name": "pgoutput",
+                                         "slot.name": "debezium_slot"
                                        }
                                      }')
-        echo $inventory_connector
-}
-
-function createDebeziumConnectors2 {
-    inventory_connector=$(curl --location 'http://localhost:8083/connectors' \
-                          --header 'Content-Type: application/json' \
-                          --data '{
-                            "name": "inventory-connector",
-                            "config": {
-                              "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
-                              "database.hostname": "postgres",
-                              "database.port": "5432",
-                              "database.user": "postgres",
-                              "database.password": "postgres",
-                              "database.dbname": "postgres",
-                              "database.server.name": "dbserver1",
-                              "table.include.list": "inventory.customers",
-                              "topic.prefix": "orders"
-                            }
-                          }')
-        echo $inventory_connector
+        echo $postgres_connector
 }

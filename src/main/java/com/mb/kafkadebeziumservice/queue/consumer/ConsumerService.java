@@ -1,4 +1,4 @@
-package com.mb.kafkadebeziumservice.service;
+package com.mb.kafkadebeziumservice.queue.consumer;
 
 import java.util.List;
 

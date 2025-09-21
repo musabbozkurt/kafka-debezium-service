@@ -1,6 +1,6 @@
 package com.mb.kafkadebeziumservice.api.controller;
 
-import com.mb.kafkadebeziumservice.service.ConsumerService;
+import com.mb.kafkadebeziumservice.queue.consumer.ConsumerService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
