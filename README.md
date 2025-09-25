@@ -2,6 +2,10 @@
 
 - Docker should be installed
 - Java 21 should be installed --> `export JAVA_HOME=$(/usr/libexec/java_home -v 21)`
+- Oracle Container Registry (OPTIONAL)
+    - Create account: https://container-registry.oracle.com/
+    - Generate `Auth Token`, copy the token, and update `ORACLE_AUTH_TOKEN` and update `ORACLE_USERNAME_OR_EMAIL`
+      in [.env](.env) file
 
 -----
 
@@ -12,10 +16,10 @@
     - `Password: postgres`
     - `Database: postgres`
     - `Port: 5433`
-- `Oracle PDB (Pluggable Database)` DB connection details
+- `Oracle 23 PDB (Pluggable Database)` DB connection details
     - `Host: localhost`
     - `Service: freepdb1`
-    - `Port: 1521`
+    - `Port: 1522`
     - Login:
         - Authentication: `SYSDBA`
             - `User: SYS`
@@ -23,16 +27,30 @@
         - Authentication: `User & Password`
             - `User: MB_ORACLE_USER`
             - `Password: oracle_password`
+- `Oracle 19` DB connection details
+    - `Host: localhost`
+    - `Service: ORCLPDB1` or `Service: ORCLCDB`
+    - `Port: 1521`
+    - Login:
+        - Authentication: `SYSDBA`
+            - `User: SYS`
+            - `Password: oracle_19_password`
+        - Authentication: `User & Password`
+            - `User: c##dbzuser`
+            - `Password: dbz`
 
 - `Kafka Nodes`: http://localhost:8080/ui/clusters/local/brokers
 - `kafka-ui`: http://localhost:8080
 - `debezium-connectors`: http://localhost:8083/connectors
+- Check the logs of `oracle-db-19` container, if `DATABASE IS READY TO USE!` message is printed, then run
+  the [./scripts/create-oracle-19-connector.sh](scripts/create-oracle-19-connector.sh) command to set up
+  `debezium-oracle-db-19` user and other required settings via `Terminal`
 
 -----
 
 ### How to start the application
 
-- Run [./scripts/run.sh](scripts%2Frun.sh) command to start the application
+- Run [./scripts/run.sh](scripts/run.sh) command to start the application
 
 -----
 
@@ -54,6 +72,7 @@
   from inventory.customers;
   
   ```
+
 - Run the following script to update a record
 
   ```sql
@@ -76,5 +95,8 @@ For further reference, please consider the following sections:
 - [Debezium Source Connectors](https://debezium.io/documentation/reference/stable/connectors/index.html)
 - [Setting Up a Kafka Cluster Using Docker Compose(Kraft Mode): A Step-by-Step Guide](https://medium.com/@darshak.kachchhi/setting-up-a-kafka-cluster-using-docker-compose-a-step-by-step-guide-a1ee5972b122)
 - [Posting Request Body with Curl [Curl/Bash Code]](https://reqbin.com/req/curl/c-d2nzjn3z/curl-post-body)
+- [Capture Oracle database events with Debezium - Preparing the database (Part 1)](https://www.youtube.com/watch?v=mzho5QS6CSk)
+    - [Capture Oracle database events in Apache Kafka with Debezium](https://developers.redhat.com/blog/2021/04/19/capture-oracle-database-events-in-apache-kafka-with-debezium)
+    - https://github.com/debezium/oracle-vagrant-box
 
 -----

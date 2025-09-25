@@ -28,7 +28,7 @@ services:
     container_name: oracle-db
     restart: on-failure
     ports:
-      - "1521:1521"
+      - "1522:1521" # Using different port to avoid conflict with above Oracle DB
     environment:
       - ORACLE_ARCHIVELOG=true
       - APP_USER=MB_ORACLE_USER
@@ -39,6 +39,22 @@ services:
       - ./scripts/oracle:/container-entrypoint-startdb.d # Initialize the database with custom scripts
     networks:
       - kafka-network
+
+  oracle-db-19:
+    image: ${ORACLE_CONTAINER_REGISTRY_URL}
+    container_name: oracle-db-19
+    restart: on-failure
+    ports:
+      - "1521:1521"
+    environment:
+      - ORACLE_PWD=oracle_19_password
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - ./scripts/oracle-19:/docker-entrypoint-initdb.d
+    networks:
+      - kafka-network
+    profiles:
+      - ${DISABLE_ORACLE_19_DB:-}
 
   kafka1:
     image: confluentinc/cp-kafka:8.0.0
@@ -172,3 +188,6 @@ services:
 networks:
   kafka-network:
     driver: bridge
+
+volumes:
+  oracle-data:

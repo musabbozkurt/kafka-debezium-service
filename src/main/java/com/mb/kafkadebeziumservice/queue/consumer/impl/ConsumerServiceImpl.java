@@ -38,7 +38,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         log.info("Received a request to consume topic1 message. receivedPartitionId: {} offset: {} message: {}", receivedPartitionId, offset, message);
     }
 
-    @KafkaListener(topics = "${spring.kafka.topics.topic2}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = {"${spring.kafka.topics.topic2}", "${spring.kafka.topics.topic5}"}, groupId = "${spring.kafka.consumer.group-id}")
     public void consumeInventoryCustomers(@Payload(required = false) DebeziumCustomerMessage message,
                                           @Header(KafkaHeaders.RECEIVED_PARTITION) String receivedPartitionId,
                                           @Header(KafkaHeaders.OFFSET) String offset) {
