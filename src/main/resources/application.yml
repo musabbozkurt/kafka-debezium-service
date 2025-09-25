@@ -18,6 +18,7 @@ spring:
       topic2: inventory-db-server.inventory.customers
       topic3: customers
       topic4: inventory-db-server.inventory.products
+      topic5: oracle-db-19-server.DEBEZIUM.CUSTOMERS
   jackson:
     serialization:
       indent_output: true

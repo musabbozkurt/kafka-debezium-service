@@ -26,6 +26,16 @@ function randomPort {
     echo -n $(( ( RANDOM % 60000 ) + 1024 ))
 }
 
+# Wait for Oracle to be ready, but this is not used currently
+function wait_for_oracle_19() {
+    logInfo "Waiting for Oracle to be ready..."
+    until docker exec oracle-db-19 sqlplus -S sys/top_secret@//localhost:1521/ORCLCDB as sysdba <<< "SELECT 1 FROM dual;" > /dev/null 2>&1; do
+        logWarn "Oracle not ready yet..."
+        sleep 10
+    done
+    logInfo "Oracle is ready!"
+}
+
 function createPostgresConnector {
     postgres_connector=$(curl -X POST 'http://localhost:8083/connectors' \
                                 -H 'Content-Type: application/json' \
@@ -45,7 +55,7 @@ function createPostgresConnector {
                                          "slot.name": "debezium_slot"
                                        }
                                      }')
-        echo $postgres_connector
+        echo "$postgres_connector"
 }
 
 function createOracleConnector {
@@ -76,5 +86,5 @@ function createOracleConnector {
                                "log.mining.sleep.time.default.ms": "1000"
                            }
                        }')
-    echo $oracle_connector
+    echo "$oracle_connector"
 }
