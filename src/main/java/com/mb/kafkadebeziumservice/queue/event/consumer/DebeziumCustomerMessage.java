@@ -1,5 +1,6 @@
 package com.mb.kafkadebeziumservice.queue.event.consumer;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,11 +29,13 @@ public class DebeziumCustomerMessage {
         @Setter
         @ToString
         public static class CustomerData {
+            @JsonAlias({"id", "ID"})
             private Integer id;
-            @JsonProperty("first_name")
+            @JsonAlias({"first_name", "FIRST_NAME"})
             private String firstName;
-            @JsonProperty("last_name")
+            @JsonAlias({"last_name", "LAST_NAME"})
             private String lastName;
+            @JsonAlias({"email", "EMAIL"})
             private String email;
         }
 
