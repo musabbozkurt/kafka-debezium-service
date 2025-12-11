@@ -1,7 +1,7 @@
 ### Prerequisites
 
 - Docker should be installed
-- Java 21 should be installed --> `export JAVA_HOME=$(/usr/libexec/java_home -v 21)`
+- Java 25 should be installed --> `export JAVA_HOME=$(/usr/libexec/java_home -v 25)`
 - Oracle Container Registry (OPTIONAL)
     - Create account: https://container-registry.oracle.com/
     - Generate `Auth Token`, copy the token, and update `ORACLE_AUTH_TOKEN` and update `ORACLE_USERNAME_OR_EMAIL`

@@ -11,7 +11,7 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ContainerProperties;
-import org.springframework.kafka.support.converter.ByteArrayJsonMessageConverter;
+import org.springframework.kafka.support.converter.ByteArrayJacksonJsonMessageConverter;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -70,7 +70,7 @@ public class KafkaConsumerConfig {
 
         factory.setConsumerFactory(consumerFactory());
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.BATCH);
-        factory.setRecordMessageConverter(new ByteArrayJsonMessageConverter());
+        factory.setRecordMessageConverter(new ByteArrayJacksonJsonMessageConverter());
 
         return factory;
     }

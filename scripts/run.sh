@@ -8,7 +8,7 @@ echo "BASE_SCRIPTS_DIR: $BASE_SCRIPTS_DIR"
 
 echo "Current JAVA_HOME: $JAVA_HOME"
 
-JAVA_HOME=$(/usr/libexec/java_home -v 21)
+JAVA_HOME=$(/usr/libexec/java_home -v 25)
 export JAVA_HOME
 echo "Current JAVA_HOME after export: $JAVA_HOME"
 
